@@ -179,12 +179,36 @@
       escalonar(sec);
       requestAnimationFrame(function () { ajustar(sec); });
     });
-    setTimeout(function () { ajustar(sec); }, 420);
-    setTimeout(function () { ajustar(sec); animando = false; }, reducirMovimiento ? 40 : 760);
+    /* El bloqueo dura solo lo que tarda en salir la pantalla anterior: si se
+       prolongara hasta el final de la entrada, quien avance rápido con el
+       botón o con el control remoto perdería pulsaciones. */
+    setTimeout(function () {
+      ajustar(sec);
+      animando = false;
+      atenderPendiente();
+    }, reducirMovimiento ? 20 : 400);
+    setTimeout(function () { ajustar(sec); }, 780);
   }
 
-  function siguiente() { if (indice < PANTALLAS.length - 1) mostrar(indice + 1, 1); }
-  function atras() { if (indice > 0) mostrar(indice - 1, -1); }
+  /* Si llega una pulsación mientras una pantalla está entrando, se guarda y se
+     atiende al terminar. Así quien avanza rápido —con el botón, el teclado o un
+     control remoto— nunca pierde un paso. */
+  var pendiente = 0;
+
+  function siguiente() {
+    if (animando) { pendiente = 1; return; }
+    if (indice < PANTALLAS.length - 1) mostrar(indice + 1, 1);
+  }
+  function atras() {
+    if (animando) { pendiente = -1; return; }
+    if (indice > 0) mostrar(indice - 1, -1);
+  }
+  function atenderPendiente() {
+    var p = pendiente;
+    pendiente = 0;
+    if (p === 1) siguiente();
+    else if (p === -1) atras();
+  }
 
   btnSig.addEventListener("click", siguiente);
   btnAtras.addEventListener("click", atras);

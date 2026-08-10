@@ -1,0 +1,48 @@
+INTELIGENCIA ARTIFICIAL: DEL CONCEPTO A SU APLICACION EN EL SECTOR SALUD
+Capacitacion interactiva de 36 pantallas - Ingeniero Diego Cortes
+
+
+PARA PRESENTAR (lo unico que necesita)
+--------------------------------------
+Haga doble clic en:
+
+    capacitacion-ia-salud.html
+
+Se abre en su navegador. No necesita internet, ni instalar nada, ni
+servidor. Puede copiar ese solo archivo a una memoria USB y llevarlo a
+cualquier computador o sala de proyeccion.
+
+Ya adentro, presione F11 para pantalla completa (en Mac: Ctrl+Cmd+F).
+
+Avance con los botones "Siguiente" y "Atras" de la parte inferior, o con
+las flechas del teclado. Un control remoto de presentaciones tambien
+funciona, porque envia esas mismas flechas.
+
+
+PARA EDITAR EL CONTENIDO
+------------------------
+Abra index.html si quiere ver la version por archivos separados.
+
+Los dos archivos que probablemente quiera tocar son:
+
+    assets/js/datos/autor.js     sus datos de la pantalla final
+    assets/js/datos/fuentes.js   cifras, normas, casos e hitos historicos
+
+Despues de editar, regenere el archivo unico ejecutando en una terminal:
+
+    python3 herramientas/generar-version-unica.py
+
+El README.md explica el resto con detalle.
+
+
+ANTES DE CADA SESION
+--------------------
+Las cifras y las normas de esta capacitacion fueron consultadas el
+9 de agosto de 2026 y cada una lleva su año y su fuente. La normatividad
+del RIPS y de la historia clinica interoperable ha cambiado varias veces
+en pocos años: verifique la vigencia antes de dictarla.
+
+Tenga presente que dentro de la presentacion hay contenido marcado como
+ilustrativo a proposito: las cifras de los tableros y de la cartera, y la
+resolucion citada en el ejemplo de alucinacion, que es ficticia por
+diseño para mostrar como un dato inventado puede parecer verdadero.

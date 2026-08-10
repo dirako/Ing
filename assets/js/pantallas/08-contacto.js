@@ -39,6 +39,13 @@
       var lugar = [A.institucion, A.ciudad].filter(hay).join(" · ");
       if (lugar) identidad += '<p class="tarjeta-lugar">' + lugar + "</p>";
 
+      if (Array.isArray(A.formacion) && A.formacion.filter(hay).length) {
+        identidad += '<ul class="credenciales">' +
+          A.formacion.filter(hay).map(function (f) {
+            return "<li>" + f.trim() + "</li>";
+          }).join("") + "</ul>";
+      }
+
       var datos = CAMPOS.filter(function (c) { return hay(A[c.k]); }).map(function (c) {
         var v = A[c.k].trim();
         var contenido = c.enlace

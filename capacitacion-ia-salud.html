@@ -1338,6 +1338,23 @@ h2.titulo {
 .tarjeta-cargo { margin: 0; font-size: clamp(.8rem, 1.6vw, 1.05rem); font-weight: 700; color: var(--tinta); }
 .tarjeta-lugar { margin: 0; font-size: clamp(.7rem, 1.2vw, .88rem); color: var(--tinta-suave); }
 
+.credenciales {
+  list-style: none; margin: .35rem 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: .3rem .4rem;
+}
+.credenciales li {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .25rem .6rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--acento) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acento) 32%, transparent);
+  font-size: clamp(.62rem, 1.02vw, .77rem); font-weight: 600; color: var(--tinta);
+}
+/* Punto de acento en lugar de un emoji: a este tamaño se lee mucho mejor. */
+.credenciales li::before {
+  content: ""; width: .34rem; height: .34rem; border-radius: 999px;
+  background: var(--acento-2); flex: 0 0 auto;
+}
+
 .tarjeta-datos {
   list-style: none; margin: .5rem 0 0; padding: .55rem 0 0;
   border-top: 1px solid var(--linea);
@@ -1438,6 +1455,7 @@ h2.titulo {
   .cierre-personas { flex-wrap: wrap; gap: 1rem; }
   .tarjeta-contacto { flex-direction: column; text-align: center; gap: .8rem; }
   .tarjeta-datos { grid-template-columns: 1fr; justify-items: start; }
+  .credenciales { justify-content: center; }
   .orbita { height: clamp(12rem, 38vh, 17rem); }
   .orbe { width: 4rem; }
   .orbe-t { font-size: .52rem; }
@@ -1720,6 +1738,13 @@ window.AUTOR = {
   cargo: "Modelo de salud colombiano · Inteligencia artificial aplicada al sector",
   institucion: "",
   ciudad: "Cali, Colombia",
+
+  /* Formación académica. Cada elemento se muestra como una credencial. */
+  formacion: [
+    "Ingeniero Industrial",
+    "Magíster en Gerencia de Servicios de Salud",
+    "Magíster en Gobierno y Políticas Públicas"
+  ],
 
   correo: "diegocortes24@gmail.com",
   telefono: "+57 316 690 3440",
@@ -3978,6 +4003,13 @@ window.PERSONAJES = (function () {
       var lugar = [A.institucion, A.ciudad].filter(hay).join(" · ");
       if (lugar) identidad += '<p class="tarjeta-lugar">' + lugar + "</p>";
 
+      if (Array.isArray(A.formacion) && A.formacion.filter(hay).length) {
+        identidad += '<ul class="credenciales">' +
+          A.formacion.filter(hay).map(function (f) {
+            return "<li>" + f.trim() + "</li>";
+          }).join("") + "</ul>";
+      }
+
       var datos = CAMPOS.filter(function (c) { return hay(A[c.k]); }).map(function (c) {
         var v = A[c.k].trim();
         var contenido = c.enlace
@@ -4194,12 +4226,36 @@ window.PERSONAJES = (function () {
       escalonar(sec);
       requestAnimationFrame(function () { ajustar(sec); });
     });
-    setTimeout(function () { ajustar(sec); }, 420);
-    setTimeout(function () { ajustar(sec); animando = false; }, reducirMovimiento ? 40 : 760);
+    /* El bloqueo dura solo lo que tarda en salir la pantalla anterior: si se
+       prolongara hasta el final de la entrada, quien avance rápido con el
+       botón o con el control remoto perdería pulsaciones. */
+    setTimeout(function () {
+      ajustar(sec);
+      animando = false;
+      atenderPendiente();
+    }, reducirMovimiento ? 20 : 400);
+    setTimeout(function () { ajustar(sec); }, 780);
   }
 
-  function siguiente() { if (indice < PANTALLAS.length - 1) mostrar(indice + 1, 1); }
-  function atras() { if (indice > 0) mostrar(indice - 1, -1); }
+  /* Si llega una pulsación mientras una pantalla está entrando, se guarda y se
+     atiende al terminar. Así quien avanza rápido —con el botón, el teclado o un
+     control remoto— nunca pierde un paso. */
+  var pendiente = 0;
+
+  function siguiente() {
+    if (animando) { pendiente = 1; return; }
+    if (indice < PANTALLAS.length - 1) mostrar(indice + 1, 1);
+  }
+  function atras() {
+    if (animando) { pendiente = -1; return; }
+    if (indice > 0) mostrar(indice - 1, -1);
+  }
+  function atenderPendiente() {
+    var p = pendiente;
+    pendiente = 0;
+    if (p === 1) siguiente();
+    else if (p === -1) atras();
+  }
 
   btnSig.addEventListener("click", siguiente);
   btnAtras.addEventListener("click", atras);

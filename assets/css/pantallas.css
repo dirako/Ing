@@ -713,6 +713,23 @@
 .tarjeta-cargo { margin: 0; font-size: clamp(.8rem, 1.6vw, 1.05rem); font-weight: 700; color: var(--tinta); }
 .tarjeta-lugar { margin: 0; font-size: clamp(.7rem, 1.2vw, .88rem); color: var(--tinta-suave); }
 
+.credenciales {
+  list-style: none; margin: .35rem 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: .3rem .4rem;
+}
+.credenciales li {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .25rem .6rem; border-radius: 999px;
+  background: color-mix(in srgb, var(--acento) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--acento) 32%, transparent);
+  font-size: clamp(.62rem, 1.02vw, .77rem); font-weight: 600; color: var(--tinta);
+}
+/* Punto de acento en lugar de un emoji: a este tamaño se lee mucho mejor. */
+.credenciales li::before {
+  content: ""; width: .34rem; height: .34rem; border-radius: 999px;
+  background: var(--acento-2); flex: 0 0 auto;
+}
+
 .tarjeta-datos {
   list-style: none; margin: .5rem 0 0; padding: .55rem 0 0;
   border-top: 1px solid var(--linea);
@@ -813,6 +830,7 @@
   .cierre-personas { flex-wrap: wrap; gap: 1rem; }
   .tarjeta-contacto { flex-direction: column; text-align: center; gap: .8rem; }
   .tarjeta-datos { grid-template-columns: 1fr; justify-items: start; }
+  .credenciales { justify-content: center; }
   .orbita { height: clamp(12rem, 38vh, 17rem); }
   .orbe { width: 4rem; }
   .orbe-t { font-size: .52rem; }

@@ -14,6 +14,13 @@ window.AUTOR = {
   institucion: "",
   ciudad: "Cali, Colombia",
 
+  /* Formación académica. Cada elemento se muestra como una credencial. */
+  formacion: [
+    "Ingeniero Industrial",
+    "Magíster en Gerencia de Servicios de Salud",
+    "Magíster en Gobierno y Políticas Públicas"
+  ],
+
   correo: "diegocortes24@gmail.com",
   telefono: "+57 316 690 3440",
   redes: "@colombia_salud",
