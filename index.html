@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#04060f" />
+<meta name="description" content="Experiencia interactiva de capacitación: Inteligencia Artificial, del concepto a su aplicación en el sector salud colombiano." />
+<title>Inteligencia Artificial · Del concepto a su aplicación en el sector salud colombiano</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23070b1a'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%2338e1c8'/%3E%3Cg stroke='%235b8cff' stroke-width='2' fill='none'%3E%3Ccircle cx='32' cy='32' r='19'/%3E%3Cpath d='M32 13v10M32 41v10M13 32h10M41 32h10'/%3E%3C/g%3E%3C/svg%3E" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/componentes.css" />
+<link rel="stylesheet" href="assets/css/pantallas.css" />
+</head>
+<body>
+
+<!-- Fondos cromáticos por módulo: se hace crossfade entre capas -->
+<div id="fondo" aria-hidden="true">
+  <div class="capa" data-capa="origenes"></div>
+  <div class="capa" data-capa="motor"></div>
+  <div class="capa" data-capa="generativa"></div>
+  <div class="capa" data-capa="salud"></div>
+  <div class="capa" data-capa="admin"></div>
+  <div class="capa" data-capa="colombia"></div>
+  <div class="capa" data-capa="riesgo"></div>
+  <div class="capa" data-capa="futuro"></div>
+  <canvas id="campo"></canvas>
+  <div class="vineta"></div>
+</div>
+
+<main id="escenario" aria-live="polite">
+  <!-- El motor inyecta aquí la pantalla activa -->
+</main>
+
+<!-- Única navegación permitida: ATRÁS / SIGUIENTE + progreso no interactivo -->
+<nav id="navegacion" aria-label="Navegación de la presentación">
+  <button id="btn-atras" type="button" class="nav-btn">
+    <span class="nav-flecha" aria-hidden="true">←</span><span class="nav-txt">Atrás</span>
+  </button>
+
+  <div class="nav-centro">
+    <p id="contador" class="nav-contador">Pantalla 1 de 1</p>
+    <div class="nav-barra" role="presentation" aria-hidden="true"><i id="nav-avance"></i></div>
+  </div>
+
+  <button id="btn-siguiente" type="button" class="nav-btn nav-btn--primario">
+    <span class="nav-txt">Siguiente</span><span class="nav-flecha" aria-hidden="true">→</span>
+  </button>
+</nav>
+
+<div id="aviso-rotar" hidden>
+  <p><strong>Gire el dispositivo</strong><br />Esta capacitación se ve mejor en vertical en celulares y en horizontal en tabletas y proyección.</p>
+</div>
+
+<!-- Datos -->
+<script src="assets/js/datos/geo-colombia.js"></script>
+<script src="assets/js/datos/fuentes.js"></script>
+<!-- Utilidades -->
+<script src="assets/js/fx.js"></script>
+<script src="assets/js/personajes.js"></script>
+<!-- Pantallas -->
+<script src="assets/js/pantallas/01-apertura.js"></script>
+<script src="assets/js/pantallas/02-fundamentos.js"></script>
+<script src="assets/js/pantallas/03-motor.js"></script>
+<script src="assets/js/pantallas/04-salud.js"></script>
+<script src="assets/js/pantallas/05-administrativo.js"></script>
+<script src="assets/js/pantallas/06-colombia.js"></script>
+<script src="assets/js/pantallas/07-riesgos-futuro.js"></script>
+<!-- Motor -->
+<script src="assets/js/motor.js"></script>
+</body>
+</html>
