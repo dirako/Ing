@@ -15,6 +15,16 @@
     { k: "web", i: "🌐", r: "Sitio" }
   ];
 
+  /* La invitación a seguir las redes se destaca aparte de los datos de
+     contacto: es una llamada a la acción, no un dato más de la tarjeta. */
+  function invitacion() {
+    if (!hay(A.redes)) return "";
+    return '<div class="seguir" data-rev>' +
+      '<span class="seguir-txt">Si quiere seguir estos temas del sistema de salud ' +
+      'colombiano y de inteligencia artificial, lo invito a seguirme en</span>' +
+      '<span class="seguir-usuario">' + A.redes.trim() + "</span></div>";
+  }
+
   function hay(v) { return typeof v === "string" && v.trim() !== ""; }
 
   window.PANTALLAS.push({
@@ -55,6 +65,7 @@
           </div>
         </div>
 
+        ${invitacion()}
         ${hay(A.mensaje) ? '<p class="contacto-mensaje" data-rev>' + A.mensaje + "</p>" : ""}
       </div>`;
     },

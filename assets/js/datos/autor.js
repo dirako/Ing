@@ -6,12 +6,17 @@
    vacíos ("") sencillamente no se muestran.
    ============================================================ */
 window.AUTOR = {
-  nombre: "",
-  cargo: "",
+  nombre: "Ingeniero Diego Cortés",
+
+  /* Sin vínculo institucional actual: la línea describe el campo de
+     trabajo, no un cargo ni un empleador. */
+  cargo: "Modelo de salud colombiano · Inteligencia artificial aplicada al sector",
   institucion: "",
-  ciudad: "",
+  ciudad: "Cali, Colombia",
+
   correo: "diegocortes24@gmail.com",
-  telefono: "",
+  telefono: "+57 316 690 3440",
+  redes: "@colombia_salud",
   linkedin: "",
   web: "",
 
