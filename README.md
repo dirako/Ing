@@ -9,16 +9,32 @@ hospitales y procesos administrativos en Colombia.*
 
 ---
 
-## Cómo se ejecuta
+## Cómo verla
 
 No requiere compilación, servidor ni conexión a internet.
 
-```bash
-# Opción 1 · abrir directamente
-xdg-open index.html          # (o doble clic en el archivo)
+**La forma más simple.** Descargue `capacitacion-ia-salud.html` y ábralo con doble clic.
+Es un único archivo con todo adentro —estilos, código, mapa e ilustraciones— así que
+funciona desde una USB, sin instalar nada y sin red. Es la opción recomendada para
+proyectar en una sala.
 
-# Opción 2 · servidor local, recomendado para proyección
+**Desde el repositorio completo.**
+
+```bash
+git clone -b claude/ia-salud-colombia-platform-55d410 https://github.com/dirako/Ing.git
+cd Ing
+
+# abrir directamente
+xdg-open index.html            # macOS: open index.html · Windows: start index.html
+
+# o con un servidor local
 npx http-server . -p 8080
+```
+
+**Regenerar el archivo único** después de editar cualquier pantalla:
+
+```bash
+python3 herramientas/generar-version-unica.py
 ```
 
 Todo el código es HTML, CSS y JavaScript sin dependencias externas ni CDN, de modo
