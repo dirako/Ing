@@ -1678,6 +1678,29 @@ window.FUENTES = (function () {
   };
 })();
 
+/* ===== assets/js/datos/autor.js ===== */
+/* ============================================================
+   DATOS DE CONTACTO DE LA PANTALLA FINAL
+   ------------------------------------------------------------
+   Edite únicamente este archivo para cambiar los datos que
+   aparecen al cerrar la capacitación. Los campos que se dejen
+   vacíos ("") sencillamente no se muestran.
+   ============================================================ */
+window.AUTOR = {
+  nombre: "",
+  cargo: "",
+  institucion: "",
+  ciudad: "",
+  correo: "diegocortes24@gmail.com",
+  telefono: "",
+  linkedin: "",
+  web: "",
+
+  /* Frase de cierre que acompaña los datos. */
+  mensaje: "Quedo atento a sus preguntas, comentarios y a cualquier idea que quieran " +
+           "explorar sobre inteligencia artificial aplicada a su proceso."
+};
+
 /* ===== assets/js/fx.js ===== */
 /* ============================================================
    FX · utilidades de animación
@@ -2063,6 +2086,78 @@ window.PERSONAJES = (function () {
     administrativoSVG: administrativoSVG,
     pacienteSVG: pacienteSVG
   };
+})();
+
+/* ===== assets/js/pantallas/00-aviso.js ===== */
+/* ============================================================
+   PANTALLA 1 · AVISO PREVIO
+   Se muestra antes de la portada. Deja constancia del carácter
+   educativo de la sesión y de la responsabilidad individual en
+   el uso de la inteligencia artificial en el trabajo.
+   ============================================================ */
+(function () {
+  "use strict";
+  window.PANTALLAS = window.PANTALLAS || [];
+
+  var PUNTOS = [
+    {
+      i: "🎓",
+      t: "Es un espacio educativo",
+      d: "El contenido tiene fines exclusivamente formativos y de divulgación. " +
+         "No constituye asesoría clínica, jurídica, financiera ni técnica, " +
+         "ni sustituye los manuales, protocolos y políticas de su institución."
+    },
+    {
+      i: "🙋",
+      t: "El uso en el trabajo es responsabilidad de cada persona",
+      d: "Quien utilice inteligencia artificial en sus labores responde por esa decisión " +
+         "y por sus resultados, dentro de las políticas de la institución, su contrato " +
+         "y la normatividad vigente."
+    },
+    {
+      i: "🔐",
+      t: "Información reservada",
+      d: "No ingrese datos personales, historias clínicas ni información institucional " +
+         "reservada en herramientas de IA sin autorización expresa y sin verificar " +
+         "las condiciones de tratamiento de esos datos."
+    },
+    {
+      i: "🔎",
+      t: "Verifique siempre antes de usar",
+      d: "Toda salida de un sistema de IA debe contrastarse con la fuente oficial " +
+         "antes de utilizarse. La decisión final y la responsabilidad siguen siendo humanas."
+    }
+  ];
+
+  window.PANTALLAS.unshift({
+    id: "aviso",
+    tema: "origenes",
+    modulo: "Aviso previo · léalo antes de continuar",
+    titulo: "Antes de comenzar",
+    pregunta: "Cuatro acuerdos que enmarcan todo lo que veremos en las próximas pantallas.",
+    html: function () {
+      return `
+      <div class="columna">
+        <div class="rejilla" data-col="4">
+          ${PUNTOS.map(function (p) {
+            return '<div class="aviso-punto" data-rev>' +
+              '<span class="aviso-punto-i">' + p.i + "</span>" +
+              "<h3>" + p.t + "</h3><p>" + p.d + "</p></div>";
+          }).join("")}
+        </div>
+
+        <div class="aviso-banda" data-rev>
+          <span class="aviso-banda-eti">Acuerdo central</span>
+          <p class="aviso-banda-txt">
+            La responsabilidad del uso de la inteligencia artificial en el trabajo
+            <span class="brillo">es de cada persona</span>.
+          </p>
+        </div>
+      </div>`;
+    },
+    nota: 'Las cifras y las normas citadas incluyen su año y su fuente, y fueron consultadas el <strong>' +
+          window.FUENTES.consulta + '</strong>. La normatividad cambia: <strong>verifique su vigencia</strong> antes de aplicar cualquier contenido de esta sesión.'
+  });
 })();
 
 /* ===== assets/js/pantallas/01-apertura.js ===== */
@@ -3807,6 +3902,71 @@ window.PERSONAJES = (function () {
         cada uno con su año y su fuente.</p></div>`;
     },
     nota: 'Fin de la capacitación. Use <strong>Atrás</strong> para revisar cualquier pantalla.'
+  });
+})();
+
+/* ===== assets/js/pantallas/08-contacto.js ===== */
+/* ============================================================
+   PANTALLA FINAL · CONTACTO
+   Los datos se editan en assets/js/datos/autor.js
+   ============================================================ */
+(function () {
+  "use strict";
+  window.PANTALLAS = window.PANTALLAS || [];
+
+  var A = window.AUTOR || {};
+
+  var CAMPOS = [
+    { k: "correo", i: "✉️", r: "Correo", enlace: function (v) { return "mailto:" + v; } },
+    { k: "telefono", i: "📱", r: "Teléfono", enlace: function (v) { return "tel:" + v.replace(/[^+\d]/g, ""); } },
+    { k: "linkedin", i: "in", r: "LinkedIn" },
+    { k: "web", i: "🌐", r: "Sitio" }
+  ];
+
+  function hay(v) { return typeof v === "string" && v.trim() !== ""; }
+
+  window.PANTALLAS.push({
+    id: "contacto",
+    tema: "futuro",
+    sinCabecera: true,
+    html: function () {
+      var identidad = "";
+      if (hay(A.nombre)) identidad += '<h2 class="tarjeta-nombre">' + A.nombre + "</h2>";
+      if (hay(A.cargo)) identidad += '<p class="tarjeta-cargo">' + A.cargo + "</p>";
+
+      var lugar = [A.institucion, A.ciudad].filter(hay).join(" · ");
+      if (lugar) identidad += '<p class="tarjeta-lugar">' + lugar + "</p>";
+
+      var datos = CAMPOS.filter(function (c) { return hay(A[c.k]); }).map(function (c) {
+        var v = A[c.k].trim();
+        var contenido = c.enlace
+          ? '<a href="' + c.enlace(v) + '">' + v + "</a>"
+          : "<span>" + v + "</span>";
+        return '<li data-rev><span class="dato-i" aria-hidden="true">' + c.i + "</span>" +
+          '<span class="dato-txt"><b>' + c.r + "</b>" + contenido + "</span></li>";
+      }).join("");
+
+      var pendiente = identidad === "" && datos === ""
+        ? '<p class="sin-dato">Complete sus datos en <span class="mono">assets/js/datos/autor.js</span></p>'
+        : "";
+
+      return `
+      <div class="contacto">
+        <span class="kicker" data-rev>Gracias por su atención</span>
+
+        <div class="tarjeta-contacto" data-rev>
+          <div class="tarjeta-nova">${window.PERSONAJES.novaSVG("contacto")}</div>
+          <div class="tarjeta-identidad">
+            ${identidad}
+            ${datos ? '<ul class="tarjeta-datos">' + datos + "</ul>" : ""}
+            ${pendiente}
+          </div>
+        </div>
+
+        ${hay(A.mensaje) ? '<p class="contacto-mensaje" data-rev>' + A.mensaje + "</p>" : ""}
+      </div>`;
+    },
+    nota: 'Fin de la capacitación. Use <strong>Atrás</strong> para volver a cualquier pantalla.'
   });
 })();
 

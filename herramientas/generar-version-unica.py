@@ -16,27 +16,6 @@ import re
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CSS = [
-    "assets/css/base.css",
-    "assets/css/componentes.css",
-    "assets/css/pantallas.css",
-]
-
-JS = [
-    "assets/js/datos/geo-colombia.js",
-    "assets/js/datos/fuentes.js",
-    "assets/js/fx.js",
-    "assets/js/personajes.js",
-    "assets/js/pantallas/01-apertura.js",
-    "assets/js/pantallas/02-fundamentos.js",
-    "assets/js/pantallas/03-motor.js",
-    "assets/js/pantallas/04-salud.js",
-    "assets/js/pantallas/05-administrativo.js",
-    "assets/js/pantallas/06-colombia.js",
-    "assets/js/pantallas/07-riesgos-futuro.js",
-    "assets/js/motor.js",   # el motor va de último: lee window.PANTALLAS ya completo
-]
-
 TITULO = "Inteligencia Artificial · Del concepto a su aplicación en el sector salud colombiano"
 
 FAVICON = (
@@ -53,6 +32,18 @@ def leer(ruta):
         return f.read()
 
 
+def rutas_desde_index():
+    """Toma las hojas de estilo y los scripts del propio index.html, en su orden
+    de declaración. Así, añadir una pantalla nueva al index basta: el
+    empaquetado la recoge sin tocar este script."""
+    html = leer("index.html")
+    css = re.findall(r'<link[^>]+rel="stylesheet"[^>]+href="([^"]+)"', html)
+    js = re.findall(r'<script src="([^"]+)"></script>', html)
+    if not css or not js:
+        raise SystemExit("No se encontraron los recursos declarados en index.html")
+    return css, js
+
+
 def cuerpo_de_index():
     """Extrae del index.html todo lo que va dentro de <body>, sin las etiquetas
     <script> ni <link>, que se reemplazan por el contenido embebido."""
@@ -63,18 +54,19 @@ def cuerpo_de_index():
     return cuerpo.strip()
 
 
-def bloques():
+def bloques(css, js):
     estilos = "\n".join(
-        "/* ===== %s ===== */\n%s" % (r, leer(r)) for r in CSS
+        "/* ===== %s ===== */\n%s" % (r, leer(r)) for r in css
     )
     guiones = "\n".join(
-        "/* ===== %s ===== */\n%s" % (r, leer(r)) for r in JS
+        "/* ===== %s ===== */\n%s" % (r, leer(r)) for r in js
     )
     return estilos, guiones
 
 
 def main():
-    estilos, guiones = bloques()
+    css, js = rutas_desde_index()
+    estilos, guiones = bloques(css, js)
     cuerpo = cuerpo_de_index()
 
     pagina = (
@@ -106,6 +98,7 @@ def main():
     with open(os.path.join(build, "pagina.html"), "w", encoding="utf-8") as f:
         f.write(pagina)
 
+    print("recursos embebidos: %d hojas de estilo, %d scripts" % (len(css), len(js)))
     print("capacitacion-ia-salud.html  %6.1f KB" % (len(completo) / 1024))
     print("build/pagina.html           %6.1f KB" % (len(pagina) / 1024))
 
