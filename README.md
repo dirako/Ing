@@ -50,8 +50,12 @@ La única navegación visible son los dos botones inferiores:
 |---|---|
 | **← Atrás** | Deshabilitado en la primera pantalla |
 | **Siguiente →** | Se oculta en la última pantalla |
-| `Pantalla X de 34` | Contador discreto |
+| `Pantalla X de 36` | Contador discreto |
 | Barra de progreso | **No es interactiva** (`pointer-events: none`) |
+
+La sesión abre con una **pantalla de aviso previo** —carácter educativo del espacio,
+responsabilidad individual en el uso de la IA en el trabajo, manejo de información
+reservada y verificación obligatoria— y cierra con los **datos de contacto** del expositor.
 
 No hay menú lateral, ni menú hamburguesa, ni enlaces de capítulo, ni scroll para
 cambiar de pantalla.
@@ -72,9 +76,9 @@ Cada pantalla ocupa el área disponible del dispositivo. El motor:
    reducción proporcional al marco, de forma que **nada se recorta y nunca aparece scroll**.
 
 La reducción es una red de seguridad, no el mecanismo principal: el contenido está
-distribuido en 34 pantallas precisamente para no depender de ella. Verificación
+distribuido en 36 pantallas precisamente para no depender de ella. Verificación
 automatizada en 1920×1080, 1366×768, 1024×768 y 390×844: sin scroll vertical ni
-horizontal, sin desbordes y sin errores de JavaScript en ninguna de las 34 pantallas.
+horizontal, sin desbordes y sin errores de JavaScript en ninguna de las 36 pantallas.
 
 ---
 
@@ -93,9 +97,10 @@ assets/
     personajes.js     NOVA y las siluetas de los personajes recurrentes
     datos/
       fuentes.js      indicadores, normas, casos e hitos con año y fuente
+      autor.js        datos de contacto de la pantalla final
       geo-colombia.js geometría real de Colombia (generada, no dibujada a mano)
     pantallas/
-      01-apertura.js … 07-riesgos-futuro.js
+      00-aviso.js … 08-contacto.js
 herramientas/
   generar-mapa-colombia.py
 ```
@@ -118,19 +123,21 @@ window.PANTALLAS.push({
 
 ---
 
-## Recorrido (34 pantallas)
+## Recorrido (36 pantallas)
 
 | # | Pantalla | Módulo |
 |---|---|---|
-| 1-2 | Portada · ¿Qué creen que es la IA? | Apertura |
-| 3-7 | Qué es · Qué puede hacer · Qué no es · Orígenes · Evolución | Fundamentos |
-| 8-13 | Cómo aprende · Redes neuronales · Transformers · IA generativa · Automatización vs IA vs agente · Usos actuales | Cómo funciona |
-| 14-16 | Los dos mundos del hospital · IA asistencial · Ejemplo clínico | Salud |
-| 17-24 | Procesos administrativos · Facturación · RIPS · Glosas · Cartera · Farmacia · PQRS · Gerencia | Administración |
-| 25-28 | Colombia en cifras · Mapa · Casos · Marco normativo | Colombia |
-| 29-34 | Riesgos · Alucinación · ¿Reemplazará a las personas? · Ruta de adopción · Cierre · Fuentes | Riesgos y futuro |
+| 1 | Antes de comenzar (aviso previo) | Encuadre |
+| 2-3 | Portada · ¿Qué creen que es la IA? | Apertura |
+| 4-8 | Qué es · Qué puede hacer · Qué no es · Orígenes · Evolución | Fundamentos |
+| 9-14 | Cómo aprende · Redes neuronales · Transformers · IA generativa · Automatización vs IA vs agente · Usos actuales | Cómo funciona |
+| 15-17 | Los dos mundos del hospital · IA asistencial · Ejemplo clínico | Salud |
+| 18-25 | Procesos administrativos · Facturación · RIPS · Glosas · Cartera · Farmacia · PQRS · Gerencia | Administración |
+| 26-29 | Colombia en cifras · Mapa · Casos · Marco normativo | Colombia |
+| 30-35 | Riesgos · Alucinación · ¿Reemplazará a las personas? · Ruta de adopción · Cierre · Fuentes | Riesgos y futuro |
+| 36 | Contacto | Cierre |
 
-Son 34 y no 30 porque el temario cubre 26 procesos administrativos y cuatro bloques
+Son 36 y no 30 porque el temario cubre 26 procesos administrativos y cuatro bloques
 normativos: comprimirlos habría significado saturar pantallas o reducir la tipografía,
 que es justamente lo que se debía evitar.
 
@@ -174,6 +181,21 @@ python3 generar-mapa-colombia.py    # produce geo-colombia.js
 ```
 
 El mapa muestra únicamente geografía: **no incluye indicadores departamentales**.
+
+---
+
+## Datos de contacto de la pantalla final
+
+Se editan en un solo lugar, `assets/js/datos/autor.js`. Los campos que se dejen
+vacíos no se muestran, de modo que la tarjeta se adapta a lo que quiera exponer:
+
+```js
+window.AUTOR = {
+  nombre: "", cargo: "", institucion: "", ciudad: "",
+  correo: "", telefono: "", linkedin: "", web: "",
+  mensaje: "…"
+};
+```
 
 ---
 
