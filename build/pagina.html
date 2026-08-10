@@ -1452,6 +1452,417 @@ h2.titulo {
   .orbe-t { font-size: .52rem; }
 }
 
+/* ============================================================
+   ÍNDICE DEL RECORRIDO
+   ============================================================ */
+.indice { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: clamp(.5rem, 1.4vw, 1rem); }
+.indice-item {
+  display: flex; align-items: flex-start; gap: .7rem;
+  padding: clamp(.6rem, 1.4vw, 1rem);
+  border-radius: var(--radio); border: 1px solid var(--linea); background: var(--tarjeta);
+}
+.indice-n {
+  flex: 0 0 auto; font-size: clamp(1rem, 2.2vw, 1.6rem); font-weight: 800;
+  letter-spacing: -.04em; line-height: 1; color: var(--acento-2);
+  font-variant-numeric: tabular-nums;
+}
+.indice-txt { display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
+.indice-txt h3 { margin: 0; font-size: clamp(.8rem, 1.3vw, .96rem); font-weight: 800; }
+.indice-txt p { margin: 0; font-size: clamp(.65rem, 1.05vw, .78rem); color: var(--tinta-suave); }
+
+/* ============================================================
+   EXPERIENCIA Y CASOS
+   ============================================================ */
+.exp-quien {
+  margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .7rem;
+  font-size: clamp(.72rem, 1.2vw, .88rem);
+}
+.exp-quien b { font-size: clamp(.86rem, 1.5vw, 1.1rem); }
+.exp-quien span { color: var(--tinta-tenue); }
+
+.exp {
+  display: flex; flex-direction: column; gap: .3rem;
+  padding: clamp(.6rem, 1.4vw, 1rem);
+  border-radius: var(--radio); border: 1px solid var(--linea); background: var(--tarjeta);
+  border-top: 3px solid var(--acento);
+}
+.exp-i { font-size: clamp(1.1rem, 2.3vw, 1.6rem); line-height: 1; }
+.exp h3 { margin: 0; font-size: clamp(.8rem, 1.3vw, .98rem); font-weight: 800; }
+.exp-trabajo { margin: 0; font-size: clamp(.65rem, 1.05vw, .78rem); color: var(--tinta-suave); }
+.exp-caso {
+  margin: auto 0 0; padding-top: .4rem; border-top: 1px dashed var(--linea);
+  font-size: clamp(.65rem, 1.05vw, .78rem);
+}
+.exp-caso b {
+  display: block; font-size: .56rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--acento); margin-bottom: .1rem;
+}
+.exp-pendiente {
+  margin: auto 0 0; padding: .4rem .55rem;
+  border: 1px dashed var(--acento-3); border-radius: var(--radio-s);
+  font-size: .64rem; color: var(--acento-3); line-height: 1.3;
+}
+.exp-pendiente .mono { font-size: .92em; opacity: .8; }
+
+@media (max-width: 1100px) { .indice { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 620px)  { .indice { grid-template-columns: 1fr; } }
+
+/* ===== assets/css/claro.css ===== */
+/* ============================================================
+   IDENTIDAD CLARA (aspecto por defecto)
+   ------------------------------------------------------------
+   Reglas de color pedidas para esta versión:
+     · títulos              → azul
+     · texto en negrilla    → azul
+     · texto sin negrilla   → negro
+     · bloques con fondo azul → texto blanco
+
+   Todo se aplica con el selector :root:not([data-aspecto="oscuro"]),
+   de modo que la identidad clara es la predeterminada y la oscura
+   original sigue disponible: basta poner en index.html
+
+       <html lang="es" data-aspecto="oscuro">
+
+   y toda esta hoja deja de aplicar.
+   ============================================================ */
+
+:root:not([data-aspecto="oscuro"]) {
+  color-scheme: light;
+
+  --tinta:        #12171f;   /* texto normal: negro */
+  --tinta-suave:  #333d4d;
+  --tinta-tenue:  #5d6a7d;
+
+  --azul:         #0b4a9b;   /* azul institucional: títulos y negrilla */
+  --azul-claro:   #1667c4;
+  --acento:       #0b4a9b;
+  --acento-2:     #1667c4;
+  --acento-3:     #0e7c86;
+  --alerta:       #b3261e;
+  --ok:           #0e7a5f;
+
+  --linea:        #c3d5ee;
+  --linea-fuerte: #8daed9;
+  --tarjeta:      #ffffff;
+  --tarjeta-alta: #ffffff;
+  --vidrio:       none;
+  --sombra:       0 .5rem 1.4rem rgba(11, 45, 90, .13);
+
+  --p1: #5a86c4;
+  --p2: #8fb0d8;
+}
+
+/* Cada pantalla lleva su propio data-tema, y las variables del ancestro más
+   cercano ganan sobre las de :root. Por eso el azul se reafirma también a
+   nivel de sección; si no, los acentos oscuros de cada módulo se colarían. */
+:root:not([data-aspecto="oscuro"]) .pantalla {
+  --acento:   #0b4a9b;
+  --acento-2: #1667c4;
+  --acento-3: #0e7c86;
+  --alerta:   #b3261e;
+  --ok:       #0e7a5f;
+  --linea:        #c3d5ee;
+  --linea-fuerte: #8daed9;
+  --tarjeta:      #ffffff;
+  --tarjeta-alta: #ffffff;
+}
+/* Un matiz distinto por módulo, reservado a detalles decorativos */
+:root:not([data-aspecto="oscuro"]) .pantalla[data-tema="generativa"] { --acento-3: #6b3fbf; }
+:root:not([data-aspecto="oscuro"]) .pantalla[data-tema="salud"]      { --acento-3: #0e7a5f; }
+:root:not([data-aspecto="oscuro"]) .pantalla[data-tema="admin"],
+:root:not([data-aspecto="oscuro"]) .pantalla[data-tema="colombia"]   { --acento-3: #a5620a; }
+:root:not([data-aspecto="oscuro"]) .pantalla[data-tema="riesgo"]     { --acento-3: #b3261e; }
+
+:root:not([data-aspecto="oscuro"]) body { background: #ffffff; color: var(--tinta); }
+
+/* ------------------------------------------------------------------
+   FONDO · blanco en toda la presentación
+   El módulo ya no se distingue por el color del fondo, sino por el
+   contenido; la atmósfera la aporta el campo de nodos animado, que se
+   mantiene en un azul lo bastante oscuro para leerse sobre blanco.
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) #fondo .capa,
+:root:not([data-aspecto="oscuro"]) [data-capa] { background: #ffffff; }
+:root:not([data-aspecto="oscuro"]) #fondo .capa { opacity: 1; }
+:root:not([data-aspecto="oscuro"]) .vineta { background: none; }
+:root:not([data-aspecto="oscuro"]) #campo { opacity: .55; }
+
+/* ------------------------------------------------------------------
+   TIPOGRAFÍA · títulos y negrilla en azul, el resto en negro
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) .titulo,
+:root:not([data-aspecto="oscuro"]) h1,
+:root:not([data-aspecto="oscuro"]) h2,
+:root:not([data-aspecto="oscuro"]) h3,
+:root:not([data-aspecto="oscuro"]) strong,
+:root:not([data-aspecto="oscuro"]) b,
+:root:not([data-aspecto="oscuro"]) .kicker,
+:root:not([data-aspecto="oscuro"]) .sub,
+:root:not([data-aspecto="oscuro"]) .enfasis,
+:root:not([data-aspecto="oscuro"]) .noe-eq,
+:root:not([data-aspecto="oscuro"]) .rail-hito .anio,
+:root:not([data-aspecto="oscuro"]) .rail-hito--fuerte .anio,
+:root:not([data-aspecto="oscuro"]) .edad-pct,
+:root:not([data-aspecto="oscuro"]) .barra .pct,
+:root:not([data-aspecto="oscuro"]) .eslabon-t,
+:root:not([data-aspecto="oscuro"]) .paso,
+:root:not([data-aspecto="oscuro"]) .chip,
+:root:not([data-aspecto="oscuro"]) .dim,
+:root:not([data-aspecto="oscuro"]) .idea,
+:root:not([data-aspecto="oscuro"]) .canal,
+:root:not([data-aspecto="oscuro"]) .ger-f,
+:root:not([data-aspecto="oscuro"]) .seguir-usuario,
+:root:not([data-aspecto="oscuro"]) .consola-out,
+:root:not([data-aspecto="oscuro"]) .grande,
+:root:not([data-aspecto="oscuro"]) .revelacion-txt,
+:root:not([data-aspecto="oscuro"]) .consulta-q,
+:root:not([data-aspecto="oscuro"]) .tarjeta-cargo,
+:root:not([data-aspecto="oscuro"]) .chat-quien,
+:root:not([data-aspecto="oscuro"]) .norma-eti,
+:root:not([data-aspecto="oscuro"]) .marco-eti,
+:root:not([data-aspecto="oscuro"]) .mundo-eti,
+:root:not([data-aspecto="oscuro"]) .flujo-rotulo,
+:root:not([data-aspecto="oscuro"]) .orbita-nom,
+:root:not([data-aspecto="oscuro"]) .mundo-nova-nom,
+:root:not([data-aspecto="oscuro"]) .dato-txt a,
+:root:not([data-aspecto="oscuro"]) .dato-txt span,
+:root:not([data-aspecto="oscuro"]) .ger-conv {
+  color: var(--azul);
+}
+/* Subtítulo de portada en el azul claro: mantiene la jerarquía frente al
+   título sin salirse de la regla de que la negrilla va en azul. */
+:root:not([data-aspecto="oscuro"]) .portada-sub { color: var(--azul-claro); }
+
+/* Texto corrido, descripciones y notas: negro */
+:root:not([data-aspecto="oscuro"]) .pregunta,
+:root:not([data-aspecto="oscuro"]) .nota,
+:root:not([data-aspecto="oscuro"]) .txt,
+:root:not([data-aspecto="oscuro"]) p,
+:root:not([data-aspecto="oscuro"]) li,
+:root:not([data-aspecto="oscuro"]) .tarjeta p,
+:root:not([data-aspecto="oscuro"]) .lista li,
+:root:not([data-aspecto="oscuro"]) .comparativa .col ul,
+:root:not([data-aspecto="oscuro"]) .contacto-mensaje,
+:root:not([data-aspecto="oscuro"]) .revelacion-sub,
+:root:not([data-aspecto="oscuro"]) .hitl-sub {
+  color: var(--tinta);
+}
+:root:not([data-aspecto="oscuro"]) .fuente,
+:root:not([data-aspecto="oscuro"]) .tenue,
+:root:not([data-aspecto="oscuro"]) .meta,
+:root:not([data-aspecto="oscuro"]) .paso small,
+:root:not([data-aspecto="oscuro"]) .token-n,
+:root:not([data-aspecto="oscuro"]) .norma-tema,
+:root:not([data-aspecto="oscuro"]) .marco-nota,
+:root:not([data-aspecto="oscuro"]) .leyenda,
+:root:not([data-aspecto="oscuro"]) .edad-t,
+:root:not([data-aspecto="oscuro"]) .mundo-nova-txt,
+:root:not([data-aspecto="oscuro"]) .personaje figcaption { color: var(--tinta-tenue); }
+
+/* Negrilla dentro de texto tenue: azul, para no perder la jerarquía */
+:root:not([data-aspecto="oscuro"]) .fuente b,
+:root:not([data-aspecto="oscuro"]) .nota strong { color: var(--azul); }
+
+/* Degradados de texto: dentro de la familia azul */
+:root:not([data-aspecto="oscuro"]) .titulo .brillo,
+:root:not([data-aspecto="oscuro"]) .kpi .valor,
+:root:not([data-aspecto="oscuro"]) .valor-ind,
+:root:not([data-aspecto="oscuro"]) .tarjeta-nombre {
+  background: linear-gradient(100deg, var(--azul) 0%, var(--azul-claro) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+/* ------------------------------------------------------------------
+   SUPERFICIES · tarjetas blancas con borde azul grisáceo
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) .tarjeta,
+:root:not([data-aspecto="oscuro"]) .paso,
+:root:not([data-aspecto="oscuro"]) .chip,
+:root:not([data-aspecto="oscuro"]) .noe,
+:root:not([data-aspecto="oscuro"]) .escalon,
+:root:not([data-aspecto="oscuro"]) .ala,
+:root:not([data-aspecto="oscuro"]) .marco-col,
+:root:not([data-aspecto="oscuro"]) .norma-caja,
+:root:not([data-aspecto="oscuro"]) .comparativa .col,
+:root:not([data-aspecto="oscuro"]) .escala-item,
+:root:not([data-aspecto="oscuro"]) .ruta-paso,
+:root:not([data-aspecto="oscuro"]) .cierre-idea,
+:root:not([data-aspecto="oscuro"]) .eq-parte,
+:root:not([data-aspecto="oscuro"]) .aviso-punto,
+:root:not([data-aspecto="oscuro"]) .mundo,
+:root:not([data-aspecto="oscuro"]) .eslabon,
+:root:not([data-aspecto="oscuro"]) .idea,
+:root:not([data-aspecto="oscuro"]) .canal,
+:root:not([data-aspecto="oscuro"]) .ger-f,
+:root:not([data-aspecto="oscuro"]) .muestra,
+:root:not([data-aspecto="oscuro"]) .nav-btn {
+  background: var(--tarjeta);
+  border-color: var(--linea);
+  box-shadow: var(--sombra);
+}
+:root:not([data-aspecto="oscuro"]) .flujo-marco,
+:root:not([data-aspecto="oscuro"]) .tablero,
+:root:not([data-aspecto="oscuro"]) .farmacia-flujo,
+:root:not([data-aspecto="oscuro"]) .norma-min,
+:root:not([data-aspecto="oscuro"]) .consola,
+:root:not([data-aspecto="oscuro"]) .chat-respuesta,
+:root:not([data-aspecto="oscuro"]) .consulta,
+:root:not([data-aspecto="oscuro"]) .tarjeta-contacto {
+  background: var(--tarjeta-alta);
+  border-color: var(--linea);
+  box-shadow: none;
+}
+:root:not([data-aspecto="oscuro"]) .tarjeta-contacto { box-shadow: var(--sombra); }
+:root:not([data-aspecto="oscuro"]) .tarjeta:hover { background: var(--tarjeta-alta); }
+:root:not([data-aspecto="oscuro"]) .consola-cab { background: #e9f0fa; border-bottom-color: var(--linea); }
+:root:not([data-aspecto="oscuro"]) .ala-lista li { border-bottom-color: #e9f0fa; }
+:root:not([data-aspecto="oscuro"]) .barra .pista { background: #e4ecf7; }
+:root:not([data-aspecto="oscuro"]) .nav-barra { background: #dce6f5; }
+:root:not([data-aspecto="oscuro"]) .pt { background: #d6e1f2; }
+:root:not([data-aspecto="oscuro"]) .orbita-anillo { border-color: var(--linea-fuerte); }
+:root:not([data-aspecto="oscuro"]) .tarjeta--vacia { background: #f7f9fd; }
+:root:not([data-aspecto="oscuro"]) .riesgo { background: #fdf3f1; border-color: #f0cfc8; }
+:root:not([data-aspecto="oscuro"]) .riesgo-i { color: var(--alerta); }
+:root:not([data-aspecto="oscuro"]) .portada-cita { border-top-color: var(--linea); }
+
+/* ------------------------------------------------------------------
+   BLOQUES DE FONDO AZUL · texto blanco
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) .mensaje-clave,
+:root:not([data-aspecto="oscuro"]) .mensaje-clave--ok,
+:root:not([data-aspecto="oscuro"]) .aviso-banda,
+:root:not([data-aspecto="oscuro"]) .hitl,
+:root:not([data-aspecto="oscuro"]) .seguir,
+:root:not([data-aspecto="oscuro"]) .aviso--clave,
+:root:not([data-aspecto="oscuro"]) .eq-parte--res,
+:root:not([data-aspecto="oscuro"]) .paso--ia,
+:root:not([data-aspecto="oscuro"]) .nav-btn--primario {
+  background: linear-gradient(100deg, var(--azul) 0%, var(--azul-claro) 100%);
+  border-color: transparent;
+  box-shadow: none;
+  color: #ffffff;
+}
+:root:not([data-aspecto="oscuro"]) .mensaje-clave *,
+:root:not([data-aspecto="oscuro"]) .aviso-banda *,
+:root:not([data-aspecto="oscuro"]) .hitl *,
+:root:not([data-aspecto="oscuro"]) .seguir *,
+:root:not([data-aspecto="oscuro"]) .aviso--clave *,
+:root:not([data-aspecto="oscuro"]) .eq-parte--res *,
+:root:not([data-aspecto="oscuro"]) .paso--ia *,
+:root:not([data-aspecto="oscuro"]) .nav-btn--primario * { color: #ffffff; }
+
+/* El texto con degradado tampoco puede quedar transparente sobre azul */
+:root:not([data-aspecto="oscuro"]) .aviso-banda .brillo,
+:root:not([data-aspecto="oscuro"]) .eq-parte--res .brillo,
+:root:not([data-aspecto="oscuro"]) .hitl .brillo {
+  background: none; color: #ffffff; -webkit-text-fill-color: #ffffff;
+}
+:root:not([data-aspecto="oscuro"]) .hitl-eti,
+:root:not([data-aspecto="oscuro"]) .aviso-banda-eti { color: rgba(255,255,255,.82); }
+:root:not([data-aspecto="oscuro"]) .paso--ia small { color: rgba(255,255,255,.8); }
+
+/* Distintivos numéricos y marcas pequeñas: azul con texto blanco */
+:root:not([data-aspecto="oscuro"]) .escalon-num,
+:root:not([data-aspecto="oscuro"]) .ruta-n,
+:root:not([data-aspecto="oscuro"]) .escala-n,
+:root:not([data-aspecto="oscuro"]) .marca-ia,
+:root:not([data-aspecto="oscuro"]) .cierre-idea b {
+  background: var(--azul); color: #ffffff; border-color: transparent;
+}
+:root:not([data-aspecto="oscuro"]) .credenciales li,
+:root:not([data-aspecto="oscuro"]) .dato-i,
+:root:not([data-aspecto="oscuro"]) .dim,
+:root:not([data-aspecto="oscuro"]) .token { background: #e8f0fb; border-color: #bdd3ee; }
+
+/* ------------------------------------------------------------------
+   NAVEGACIÓN
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) #navegacion {
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.85) 40%, #ffffff 100%);
+  border-top-color: var(--linea);
+}
+:root:not([data-aspecto="oscuro"]) .nav-btn { color: var(--azul); }
+:root:not([data-aspecto="oscuro"]) .nav-contador { color: var(--tinta-tenue); }
+
+/* ------------------------------------------------------------------
+   DETALLES POR PANTALLA
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) .etiqueta { background: #eef3fb; }
+:root:not([data-aspecto="oscuro"]) .et-implementado,
+:root:not([data-aspecto="oscuro"]) .et-consolidado { color: #0e7a5f; background: #e4f4ee; }
+:root:not([data-aspecto="oscuro"]) .et-piloto { color: #12609e; background: #e5eefa; }
+:root:not([data-aspecto="oscuro"]) .et-investigacion { color: #5b34a8; background: #eee8fa; }
+:root:not([data-aspecto="oscuro"]) .et-propuesta,
+:root:not([data-aspecto="oscuro"]) .et-emergente { color: #8f5405; background: #fbf0dd; }
+
+:root:not([data-aspecto="oscuro"]) .edad--medio .edad-barra i { background: linear-gradient(180deg, #e0a23c, #b97b12); }
+:root:not([data-aspecto="oscuro"]) .edad--alto .edad-barra i { background: linear-gradient(180deg, #d1614f, #a52f20); }
+
+:root:not([data-aspecto="oscuro"]) .sello {
+  background: #ffffff; border-color: var(--alerta); color: var(--alerta);
+}
+:root:not([data-aspecto="oscuro"]) .sello * { color: var(--alerta); }
+:root:not([data-aspecto="oscuro"]) .neq { color: var(--alerta); }
+
+:root:not([data-aspecto="oscuro"]) .rn-rotulo { fill: var(--tinta-tenue); }
+:root:not([data-aspecto="oscuro"]) .dep { stroke-width: 1.1; }
+
+:root:not([data-aspecto="oscuro"]) .svg-persona path[stroke="#04141a"],
+:root:not([data-aspecto="oscuro"]) .svg-persona circle[fill="#04141a"] { opacity: .9; }
+
+:root:not([data-aspecto="oscuro"]) #aviso-rotar { background: rgba(255,255,255,.96); color: var(--tinta); }
+
+/* Ejemplos en cursiva de las tarjetas: azul claro para diferenciarlos */
+:root:not([data-aspecto="oscuro"]) .escalon-ej,
+:root:not([data-aspecto="oscuro"]) .escala-ej,
+:root:not([data-aspecto="oscuro"]) .comparativa .ej { color: var(--azul-claro); }
+
+/* ------------------------------------------------------------------
+   SUPERFICIES BLANCAS · el fondo de cada bloque es blanco y el
+   contraste lo dan el borde, la sombra y el color del texto.
+   ------------------------------------------------------------------ */
+:root:not([data-aspecto="oscuro"]) .riesgo { background: #ffffff; border-color: #e0aca3; }
+:root:not([data-aspecto="oscuro"]) .tarjeta--vacia { background: #ffffff; }
+:root:not([data-aspecto="oscuro"]) .consola-cab { background: #ffffff; }
+:root:not([data-aspecto="oscuro"]) .credenciales li,
+:root:not([data-aspecto="oscuro"]) .dato-i,
+:root:not([data-aspecto="oscuro"]) .dim,
+:root:not([data-aspecto="oscuro"]) .token,
+:root:not([data-aspecto="oscuro"]) .muestra,
+:root:not([data-aspecto="oscuro"]) .etiqueta { background: #ffffff; }
+:root:not([data-aspecto="oscuro"]) .etiqueta { box-shadow: inset 0 0 0 1px currentColor; }
+:root:not([data-aspecto="oscuro"]) .muestra--si { border-color: var(--ok); }
+:root:not([data-aspecto="oscuro"]) .tarjeta:hover { background: #f4f8fe; }
+:root:not([data-aspecto="oscuro"]) .chat-respuesta,
+:root:not([data-aspecto="oscuro"]) .consulta,
+:root:not([data-aspecto="oscuro"]) .flujo-marco,
+:root:not([data-aspecto="oscuro"]) .tablero,
+:root:not([data-aspecto="oscuro"]) .farmacia-flujo,
+:root:not([data-aspecto="oscuro"]) .norma-min,
+:root:not([data-aspecto="oscuro"]) .consola,
+:root:not([data-aspecto="oscuro"]) .tarjeta-contacto { background: #ffffff; }
+
+/* Contraste de los gráficos sobre blanco */
+:root:not([data-aspecto="oscuro"]) .dep {
+  fill: #d8e6f8; stroke: var(--azul); stroke-width: 1.2;
+}
+:root:not([data-aspecto="oscuro"]) .dep:hover { fill: #a9c8ec; }
+:root:not([data-aspecto="oscuro"]) .rail-linea,
+:root:not([data-aspecto="oscuro"]) .tiempo::before {
+  background: linear-gradient(90deg, transparent, var(--linea-fuerte) 8%, var(--azul) 92%, transparent);
+}
+:root:not([data-aspecto="oscuro"]) .conector { background: linear-gradient(90deg, var(--linea-fuerte), var(--azul)); }
+:root:not([data-aspecto="oscuro"]) .conector--v { background: linear-gradient(180deg, var(--linea-fuerte), var(--azul)); }
+:root:not([data-aspecto="oscuro"]) .mini-graf i,
+:root:not([data-aspecto="oscuro"]) .edad-barra i,
+:root:not([data-aspecto="oscuro"]) .barra .relleno {
+  background: linear-gradient(180deg, var(--azul-claro), var(--azul));
+}
+:root:not([data-aspecto="oscuro"]) .barra .relleno { background: linear-gradient(90deg, var(--azul-claro), var(--azul)); }
+:root:not([data-aspecto="oscuro"]) .barra--principal .relleno { background: linear-gradient(90deg, #16a37b, var(--ok)); }
+:root:not([data-aspecto="oscuro"]) .edad--medio .edad-barra i { background: linear-gradient(180deg, #e0a23c, #b97b12); }
+:root:not([data-aspecto="oscuro"]) .edad--alto .edad-barra i { background: linear-gradient(180deg, #d1614f, #a52f20); }
+
 </style>
 
 <div id="fondo" aria-hidden="true">
@@ -1742,6 +2153,46 @@ window.AUTOR = {
   redes: "@colombia_salud",
   linkedin: "",
   web: "",
+
+  /* ----------------------------------------------------------------
+     EXPERIENCIA Y CASOS (pantalla 4)
+     ----------------------------------------------------------------
+     "trabajo" describe en qué consiste aplicar modelos de IA en esa
+     área. "caso" es SU caso concreto: escríbalo con el resultado que
+     pueda sustentar. Mientras esté vacío, la pantalla muestra un
+     recuadro visible pidiendo completarlo, para que no se proyecte
+     una afirmación sin respaldo.
+     ---------------------------------------------------------------- */
+  experiencia: [
+    {
+      area: "Auditoría de cuentas",
+      icono: "🔍",
+      trabajo: "Modelos que puntúan cada cuenta por riesgo, detectan inconsistencias entre " +
+               "factura y soportes, y ordenan la revisión por valor en riesgo.",
+      caso: ""
+    },
+    {
+      area: "Cartera",
+      icono: "💰",
+      trabajo: "Segmentación por pagador y edad, perfil de comportamiento de pago y " +
+               "estimación del riesgo de no pago para priorizar la gestión de cobro.",
+      caso: ""
+    },
+    {
+      area: "Historia clínica",
+      icono: "📋",
+      trabajo: "Procesamiento del texto clínico para estructurar información, verificar " +
+               "completitud documental y preparar el intercambio interoperable.",
+      caso: ""
+    },
+    {
+      area: "Facturación electrónica",
+      icono: "🧾",
+      trabajo: "Validación previa a la radicación: simulación de reglas, anticipación de " +
+               "rechazos y análisis del histórico de devoluciones por sede y servicio.",
+      caso: ""
+    }
+  ],
 
   /* Frase de cierre que acompaña los datos. */
   mensaje: "Quedo atento a sus preguntas, comentarios y a cualquier idea que quieran " +
@@ -2298,6 +2749,98 @@ window.PERSONAJES = (function () {
       return function () { clearTimeout(t); };
     }
   });
+})();
+
+/* ===== assets/js/pantallas/01b-indice-experiencia.js ===== */
+/* ============================================================
+   PANTALLAS 3 y 4 · ÍNDICE Y EXPERIENCIA
+   Se insertan justo después de la portada, sin alterar el resto
+   del recorrido.
+   ============================================================ */
+(function () {
+  "use strict";
+  window.PANTALLAS = window.PANTALLAS || [];
+
+  var A = window.AUTOR || {};
+
+  /* ---------------------------------------------------------
+     TABLA DE CONTENIDO
+     Es un índice de lectura, no un menú: no lleva enlaces ni
+     permite saltar de capítulo.
+     --------------------------------------------------------- */
+  var MODULOS = [
+    { n: "01", t: "Fundamentos", d: "Qué es, qué no es, de dónde viene y cómo evolucionó." },
+    { n: "02", t: "Cómo funciona", d: "Aprendizaje, redes neuronales, Transformers, IA generativa y agentes." },
+    { n: "03", t: "IA en la atención clínica", d: "Apoyo diagnóstico, riesgo, seguimiento y un ejemplo completo." },
+    { n: "04", t: "IA en la administración", d: "Facturación, RIPS, glosas, cartera, farmacia, PQRS y gerencia." },
+    { n: "05", t: "Colombia", d: "Cifras verificables, territorio, casos y marco normativo vigente." },
+    { n: "06", t: "Riesgos y personas", d: "Alucinaciones, sesgos, control humano y el efecto sobre el trabajo." }
+  ];
+
+  var indice = {
+    id: "indice",
+    tema: "origenes",
+    modulo: "Recorrido",
+    titulo: "Lo que veremos",
+    pregunta: "Seis bloques, de lo más simple a lo más aplicado. Cada pantalla responde una sola pregunta.",
+    html: function () {
+      return (
+        '<div class="indice">' +
+        MODULOS.map(function (m, i) {
+          return '<div class="indice-item" data-rev="' + (140 + i * 110) + '">' +
+            '<span class="indice-n">' + m.n + "</span>" +
+            '<div class="indice-txt"><h3>' + m.t + "</h3><p>" + m.d + "</p></div></div>";
+        }).join("") +
+        "</div>"
+      );
+    },
+    nota: 'El recorrido avanza de lo conceptual a lo aplicado. No hace falta conocimiento previo de tecnología.'
+  };
+
+  /* ---------------------------------------------------------
+     EXPERIENCIA Y CASOS
+     --------------------------------------------------------- */
+  var experiencia = {
+    id: "experiencia",
+    tema: "origenes",
+    modulo: "Quién presenta",
+    titulo: "Experiencia y casos en modelos de Inteligencia Artificial",
+    pregunta: "Cuatro procesos del sector salud donde estos modelos ya se aplican en el día a día.",
+    html: function () {
+      var lista = Array.isArray(A.experiencia) ? A.experiencia : [];
+      if (!lista.length) return '<p class="sin-dato">Defina sus áreas en assets/js/datos/autor.js</p>';
+
+      var tarjetas = lista.map(function (e, i) {
+        var caso = (typeof e.caso === "string" && e.caso.trim() !== "")
+          ? '<p class="exp-caso"><b>Caso</b>' + e.caso.trim() + "</p>"
+          : '<p class="exp-pendiente">Escriba aquí su caso y su resultado ' +
+            '<span class="mono">(autor.js → experiencia)</span></p>';
+        return '<div class="exp" data-rev="' + (140 + i * 120) + '">' +
+          '<span class="exp-i">' + (e.icono || "◆") + "</span>" +
+          "<h3>" + e.area + "</h3>" +
+          '<p class="exp-trabajo">' + e.trabajo + "</p>" +
+          caso + "</div>";
+      }).join("");
+
+      var quien = "";
+      if (A.nombre) {
+        quien = '<p class="exp-quien" data-rev>' +
+          "<b>" + A.nombre + "</b>" +
+          (A.cargo ? '<span>' + A.cargo + "</span>" : "") + "</p>";
+      }
+
+      return '<div class="columna">' + quien +
+        '<div class="rejilla" data-col="4">' + tarjetas + "</div></div>";
+    },
+    nota: 'Las cuatro áreas comparten un requisito previo: <strong>información estructurada y confiable</strong>. Sin eso, no hay modelo que funcione.'
+  };
+
+  /* Se insertan inmediatamente después de la portada */
+  var pos = 0;
+  for (var i = 0; i < window.PANTALLAS.length; i++) {
+    if (window.PANTALLAS[i].id === "portada") { pos = i + 1; break; }
+  }
+  window.PANTALLAS.splice(pos, 0, indice, experiencia);
 })();
 
 /* ===== assets/js/pantallas/02-fundamentos.js ===== */
@@ -4085,12 +4628,19 @@ window.PERSONAJES = (function () {
   /* ---------------------------------------------------------
      2. AJUSTE: nada se recorta, nada hace scroll
      --------------------------------------------------------- */
+  /* `zoom` reduce la caja en el propio flujo, así que la rejilla vuelve a
+     centrar la pantalla. Con `transform: scale()` la altura reservada seguía
+     siendo la original y el contenido quedaba desplazado hacia abajo, donde se
+     recortaba. Se conserva `transform` como respaldo. */
+  var soportaZoom = typeof CSS !== "undefined" && CSS.supports && CSS.supports("zoom", "0.5");
+
   function ajustar(seccion) {
     if (!seccion) return;
     var marco = seccion.querySelector(".marco");
     if (!marco) return;
-    /* Se mide siempre sin escala aplicada; de lo contrario el propio ajuste
+    /* Se mide siempre sin reducción aplicada; de lo contrario el propio ajuste
        se realimentaría y el contenido quedaría recortado. */
+    marco.style.zoom = "";
     marco.style.transform = "none";
     void marco.offsetHeight;
 
@@ -4106,7 +4656,9 @@ window.PERSONAJES = (function () {
     var f = Math.min(fy, fx);
 
     if (f < 0.999) {
-      marco.style.transform = "scale(" + Math.max(f, 0.55).toFixed(4) + ")";
+      var v = Math.max(f, 0.55).toFixed(4);
+      if (soportaZoom) marco.style.zoom = v;
+      else marco.style.transform = "scale(" + v + ")";
     }
   }
 

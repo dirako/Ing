@@ -50,7 +50,7 @@ La única navegación visible son los dos botones inferiores:
 |---|---|
 | **← Atrás** | Deshabilitado en la primera pantalla |
 | **Siguiente →** | Se oculta en la última pantalla |
-| `Pantalla X de 36` | Contador discreto |
+| `Pantalla X de 38` | Contador discreto |
 | Barra de progreso | **No es interactiva** (`pointer-events: none`) |
 
 La sesión abre con una **pantalla de aviso previo** —carácter educativo del espacio,
@@ -76,9 +76,9 @@ Cada pantalla ocupa el área disponible del dispositivo. El motor:
    reducción proporcional al marco, de forma que **nada se recorta y nunca aparece scroll**.
 
 La reducción es una red de seguridad, no el mecanismo principal: el contenido está
-distribuido en 36 pantallas precisamente para no depender de ella. Verificación
+distribuido en 38 pantallas precisamente para no depender de ella. Verificación
 automatizada en 1920×1080, 1366×768, 1024×768 y 390×844: sin scroll vertical ni
-horizontal, sin desbordes y sin errores de JavaScript en ninguna de las 36 pantallas.
+horizontal, sin desbordes y sin errores de JavaScript en ninguna de las 38 pantallas.
 
 ---
 
@@ -88,7 +88,8 @@ horizontal, sin desbordes y sin errores de JavaScript en ninguna de las 36 panta
 index.html
 assets/
   css/
-    base.css          tokens, temas cromáticos por módulo, layout, navegación
+    base.css          tokens, layout, navegación (identidad oscura original)
+    claro.css         identidad clara: fondo blanco, títulos y negrilla en azul
     componentes.css   tarjetas, flujos, líneas de tiempo, barras, avisos
     pantallas.css     estilos propios de cada pantalla + responsive
   js/
@@ -100,7 +101,7 @@ assets/
       autor.js        datos de contacto de la pantalla final
       geo-colombia.js geometría real de Colombia (generada, no dibujada a mano)
     pantallas/
-      00-aviso.js … 08-contacto.js
+      00-aviso.js … 08-contacto.js (01b añade índice y experiencia)
 herramientas/
   generar-mapa-colombia.py
 ```
@@ -123,21 +124,23 @@ window.PANTALLAS.push({
 
 ---
 
-## Recorrido (36 pantallas)
+## Recorrido (38 pantallas)
 
 | # | Pantalla | Módulo |
 |---|---|---|
 | 1 | Antes de comenzar (aviso previo) | Encuadre |
-| 2-3 | Portada · ¿Qué creen que es la IA? | Apertura |
-| 4-8 | Qué es · Qué puede hacer · Qué no es · Orígenes · Evolución | Fundamentos |
-| 9-14 | Cómo aprende · Redes neuronales · Transformers · IA generativa · Automatización vs IA vs agente · Usos actuales | Cómo funciona |
-| 15-17 | Los dos mundos del hospital · IA asistencial · Ejemplo clínico | Salud |
-| 18-25 | Procesos administrativos · Facturación · RIPS · Glosas · Cartera · Farmacia · PQRS · Gerencia | Administración |
-| 26-29 | Colombia en cifras · Mapa · Casos · Marco normativo | Colombia |
-| 30-35 | Riesgos · Alucinación · ¿Reemplazará a las personas? · Ruta de adopción · Cierre · Fuentes | Riesgos y futuro |
-| 36 | Contacto | Cierre |
+| 2 | Portada | Apertura |
+| 3-4 | Lo que veremos (índice) · Experiencia y casos del expositor | Apertura |
+| 5 | ¿Qué creen que es la IA? | Apertura |
+| 6-10 | Qué es · Qué puede hacer · Qué no es · Orígenes · Evolución | Fundamentos |
+| 11-16 | Cómo aprende · Redes neuronales · Transformers · IA generativa · Automatización vs IA vs agente · Usos actuales | Cómo funciona |
+| 17-19 | Los dos mundos del hospital · IA asistencial · Ejemplo clínico | Salud |
+| 20-27 | Procesos administrativos · Facturación · RIPS · Glosas · Cartera · Farmacia · PQRS · Gerencia | Administración |
+| 28-31 | Colombia en cifras · Mapa · Casos · Marco normativo | Colombia |
+| 32-37 | Riesgos · Alucinación · ¿Reemplazará a las personas? · Ruta de adopción · Cierre · Fuentes | Riesgos y futuro |
+| 38 | Contacto | Cierre |
 
-Son 36 y no 30 porque el temario cubre 26 procesos administrativos y cuatro bloques
+Son 38 y no 30 porque el temario cubre 26 procesos administrativos y cuatro bloques
 normativos: comprimirlos habría significado saturar pantallas o reducir la tipografía,
 que es justamente lo que se debía evitar.
 
@@ -196,6 +199,24 @@ window.AUTOR = {
   mensaje: "…"
 };
 ```
+
+---
+
+## Identidad visual
+
+La presentación usa fondo **blanco** en todas las pantallas, **títulos y negrilla en
+azul**, **texto corrido en negro** y **texto blanco sobre los bloques de fondo azul**.
+Las animaciones se conservan íntegras; el contraste lo dan el color del texto, los
+bordes y las sombras.
+
+La identidad oscura original sigue disponible sin borrar nada: basta cambiar la
+primera línea de `index.html` por
+
+```html
+<html lang="es" data-aspecto="oscuro">
+```
+
+y toda la hoja `claro.css` deja de aplicar.
 
 ---
 

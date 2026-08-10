@@ -47,12 +47,19 @@
   /* ---------------------------------------------------------
      2. AJUSTE: nada se recorta, nada hace scroll
      --------------------------------------------------------- */
+  /* `zoom` reduce la caja en el propio flujo, así que la rejilla vuelve a
+     centrar la pantalla. Con `transform: scale()` la altura reservada seguía
+     siendo la original y el contenido quedaba desplazado hacia abajo, donde se
+     recortaba. Se conserva `transform` como respaldo. */
+  var soportaZoom = typeof CSS !== "undefined" && CSS.supports && CSS.supports("zoom", "0.5");
+
   function ajustar(seccion) {
     if (!seccion) return;
     var marco = seccion.querySelector(".marco");
     if (!marco) return;
-    /* Se mide siempre sin escala aplicada; de lo contrario el propio ajuste
+    /* Se mide siempre sin reducción aplicada; de lo contrario el propio ajuste
        se realimentaría y el contenido quedaría recortado. */
+    marco.style.zoom = "";
     marco.style.transform = "none";
     void marco.offsetHeight;
 
@@ -68,7 +75,9 @@
     var f = Math.min(fy, fx);
 
     if (f < 0.999) {
-      marco.style.transform = "scale(" + Math.max(f, 0.55).toFixed(4) + ")";
+      var v = Math.max(f, 0.55).toFixed(4);
+      if (soportaZoom) marco.style.zoom = v;
+      else marco.style.transform = "scale(" + v + ")";
     }
   }
 

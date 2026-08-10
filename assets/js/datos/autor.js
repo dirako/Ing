@@ -27,6 +27,46 @@ window.AUTOR = {
   linkedin: "",
   web: "",
 
+  /* ----------------------------------------------------------------
+     EXPERIENCIA Y CASOS (pantalla 4)
+     ----------------------------------------------------------------
+     "trabajo" describe en qué consiste aplicar modelos de IA en esa
+     área. "caso" es SU caso concreto: escríbalo con el resultado que
+     pueda sustentar. Mientras esté vacío, la pantalla muestra un
+     recuadro visible pidiendo completarlo, para que no se proyecte
+     una afirmación sin respaldo.
+     ---------------------------------------------------------------- */
+  experiencia: [
+    {
+      area: "Auditoría de cuentas",
+      icono: "🔍",
+      trabajo: "Modelos que puntúan cada cuenta por riesgo, detectan inconsistencias entre " +
+               "factura y soportes, y ordenan la revisión por valor en riesgo.",
+      caso: ""
+    },
+    {
+      area: "Cartera",
+      icono: "💰",
+      trabajo: "Segmentación por pagador y edad, perfil de comportamiento de pago y " +
+               "estimación del riesgo de no pago para priorizar la gestión de cobro.",
+      caso: ""
+    },
+    {
+      area: "Historia clínica",
+      icono: "📋",
+      trabajo: "Procesamiento del texto clínico para estructurar información, verificar " +
+               "completitud documental y preparar el intercambio interoperable.",
+      caso: ""
+    },
+    {
+      area: "Facturación electrónica",
+      icono: "🧾",
+      trabajo: "Validación previa a la radicación: simulación de reglas, anticipación de " +
+               "rechazos y análisis del histórico de devoluciones por sede y servicio.",
+      caso: ""
+    }
+  ],
+
   /* Frase de cierre que acompaña los datos. */
   mensaje: "Quedo atento a sus preguntas, comentarios y a cualquier idea que quieran " +
            "explorar sobre inteligencia artificial aplicada a su proceso."
