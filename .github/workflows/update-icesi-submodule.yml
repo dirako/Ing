@@ -1,0 +1,75 @@
+name: Actualizar curso Icesi NLP
+
+on:
+  schedule:
+    # 08:00 America/Bogota = 13:00 UTC
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-icesi-submodule
+  cancel-in-progress: false
+
+jobs:
+  update-icesi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio con submodulos
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Sincronizar configuracion del submodulo
+        run: |
+          git submodule sync --recursive
+
+      - name: Actualizar Icesi a la ultima version de main
+        run: |
+          git submodule update --init --remote icesi
+
+      - name: Detectar cambios
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- icesi; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No hay actualizaciones nuevas en Icesi NLP."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Se detecto una nueva version de Icesi NLP."
+            git diff --submodule=log -- icesi
+          fi
+
+      - name: Guardar nueva version del curso
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          NEW_SHA=$(git -C icesi rev-parse HEAD)
+          git add icesi
+          git commit -m "chore(icesi): actualizar curso NLP a ${NEW_SHA:0:12}"
+          git push origin HEAD:${GITHUB_REF_NAME}
+
+      - name: Resumen
+        shell: bash
+        run: |
+          echo "## Sincronizacion Icesi NLP" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Repositorio origen: https://github.com/Ohtar10/icesi-nlp" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Rama seguida: main" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Revision programada: diaria a las 08:00 (America/Bogota)" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit actualmente referenciado: $(git -C icesi rev-parse HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.changes.outputs.changed }}" = "true" ]; then
+            echo "- Resultado: actualizado y guardado en este repositorio" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "- Resultado: sin cambios" >> "$GITHUB_STEP_SUMMARY"
+          fi
