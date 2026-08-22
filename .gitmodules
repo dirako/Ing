@@ -1,0 +1,3 @@
+[submodule "icesi"]
+	path = icesi
+	url = https://github.com/Ohtar10/icesi-nlp.git
