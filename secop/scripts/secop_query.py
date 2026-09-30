@@ -12,7 +12,7 @@ import json
 import os
 import re
 import unicodedata
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -31,6 +31,7 @@ DATASETS = {
 
 DEFAULT_LIMIT = 25
 MAX_LIMIT = 100
+BOGOTA_TZ = timezone(timedelta(hours=-5))
 
 
 def _escape_soql(value: str) -> str:
@@ -182,12 +183,12 @@ def buscar_secop2(
     if entidad:
         clauses.append(f"upper(entidad) like upper('%{_escape_soql(entidad)}%')")
     if solo_vigentes:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%dT00:00:00.000")
+        today = datetime.now(BOGOTA_TZ).strftime("%Y-%m-%dT00:00:00.000")
         clauses.append(f"fecha_de_recepcion_de >= '{today}'")
 
     params: dict[str, Any] = {
         "$limit": min(max(limite, 1), MAX_LIMIT),
-        "$order": "fecha_de_recepcion_de ASC",
+        "$order": "fecha_de_recepcion_de ASC" if solo_vigentes else "fecha_de_publicacion_del DESC",
     }
     if query:
         params["$q"] = query
