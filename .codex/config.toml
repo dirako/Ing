@@ -1,0 +1,7 @@
+[mcp_servers.secop-intelligence]
+command = "uv"
+args = ["run", "--project", "secop/mcp", "python", "secop/mcp/server.py"]
+cwd = "."
+enabled = true
+startup_timeout_sec = 30
+default_tools_approval_mode = "approve"
