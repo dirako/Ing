@@ -13,11 +13,11 @@ SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from secop_query import (  # noqa: E402
-    buscar_contratos_secop2,
-    buscar_paa,
-    buscar_secop1,
-    buscar_secop2,
-    buscar_unificado,
+    buscar_contratos_secop2 as query_contratos_secop2,
+    buscar_paa as query_paa,
+    buscar_secop1 as query_secop1,
+    buscar_secop2 as query_secop2,
+    buscar_unificado as query_unificado,
 )
 
 mcp = FastMCP(
@@ -40,7 +40,7 @@ def buscar_secop_unificado(
     limite: int = 25,
 ) -> str:
     """Busca simultáneamente en SECOP I y SECOP II y consolida resultados."""
-    data = buscar_unificado(query, departamento, entidad, solo_vigentes, limite)
+    data = query_unificado(query, departamento, entidad, solo_vigentes, limite)
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
@@ -52,7 +52,7 @@ def buscar_secop1(
     limite: int = 25,
 ) -> str:
     """Busca antecedentes históricos en SECOP I."""
-    data = globals()["buscar_secop1"](query, departamento, entidad, limite)
+    data = query_secop1(query, departamento, entidad, limite)
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
@@ -65,26 +65,26 @@ def buscar_secop2(
     limite: int = 25,
 ) -> str:
     """Busca procesos en SECOP II, opcionalmente solo con fecha de recepción futura."""
-    data = globals()["buscar_secop2"](query, departamento, entidad, solo_vigentes, limite)
+    data = query_secop2(query, departamento, entidad, solo_vigentes, limite)
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
-def buscar_contratos_secop2_tool(
+def buscar_contratos_secop2(
     query: str = "",
     departamento: str = "",
     entidad: str = "",
     limite: int = 25,
 ) -> str:
     """Busca contratos electrónicos de SECOP II."""
-    data = buscar_contratos_secop2(query, departamento, entidad, limite)
+    data = query_contratos_secop2(query, departamento, entidad, limite)
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
 @mcp.tool()
-def buscar_paa_tool(query: str = "", limite: int = 25) -> str:
+def buscar_paa(query: str = "", limite: int = 25) -> str:
     """Busca en el Plan Anual de Adquisiciones."""
-    data = buscar_paa(query, limite)
+    data = query_paa(query, limite)
     return json.dumps(data, ensure_ascii=False, indent=2)
 
 
