@@ -1,0 +1,26 @@
+{
+  "nombre": "SECOP Intelligence",
+  "version": "1.0",
+  "busqueda_unificada": true,
+  "fuentes": ["SECOP I", "SECOP II"],
+  "palabras_clave_preferidas": [
+    "RIPS",
+    "facturacion en salud",
+    "auditoria de cuentas medicas",
+    "cartera",
+    "PAMEC",
+    "calidad en salud",
+    "servicios farmaceuticos",
+    "analitica de datos",
+    "Power BI",
+    "inteligencia artificial",
+    "consultoria en salud",
+    "capacitacion"
+  ],
+  "reglas": {
+    "secop1_es_historico": true,
+    "validar_fecha_cierre_secop2": true,
+    "deduplicar": true,
+    "priorizar_vigentes": true
+  }
+}
