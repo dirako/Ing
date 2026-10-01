@@ -31,6 +31,14 @@ class SearchTests(unittest.TestCase):
         with patch.object(q, "query_dataset", return_value=rows):
             self.assertEqual([r["id_proceso"] for r in q.buscar_secop2(solo_vigentes=True)], ["open"])
 
+    def test_evaluation_is_not_open_even_with_future_deadline(self):
+        for estado in ("Evaluación", "En evaluación"):
+            row = {"estado_del_procedimiento": estado, "fecha_de_recepcion_de": "2099-01-01"}
+            self.assertEqual(q._vigencia_secop2(row), "EN_EVALUACION")
+            with patch.object(q, "query_dataset", return_value=[row]):
+                self.assertEqual(q.buscar_secop2(solo_vigentes=True), [])
+                self.assertEqual(q.buscar_secop2()[0]["vigencia"], "EN_EVALUACION")
+
     def test_contract_fields_and_history(self):
         item = q.normalize_contrato_secop2({"id_contrato": "C", "proceso_de_compra": "P", "nombre_entidad": "Entidad", "objeto_del_contrato": "Software", "referencia_del_contrato": "REF", "estado_contrato": "En ejecución"})
         self.assertEqual((item["id_contrato"], item["id_proceso"], item["objeto"], item["entidad"]), ("C", "P", "Software", "Entidad"))

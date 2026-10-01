@@ -90,6 +90,8 @@ def _parse_date(value: Any) -> datetime | None:
 
 def _vigencia_secop2(row: dict[str, Any]) -> str:
     estado = _fold(_clean_text(_pick(row, "estado_del_procedimiento", "estado")))
+    if "evaluacion" in estado:
+        return "EN_EVALUACION"
     if any(x in estado for x in ("adjudic", "seleccionado", "cerrado", "cancel", "terminado", "suspend", "desierto")):
         return "CERRADA"
     cierre = _parse_date(_pick(row, "fecha_de_recepcion_de", "fecha_de_recepcion_de_respuestas"))
