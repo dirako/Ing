@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "secop-intelligence",
-  "version": "0.1.0",
-  "description": "Consulta y análisis unificado de SECOP I y SECOP II con datos oficiales de Colombia.",
+  "version": "0.2.0",
+  "description": "SECOP I + II multisectorial: documentos públicos, requisitos y propuestas editables.",
   "repository": "https://github.com/dirako/Ing",
   "keywords": [
     "secop",
@@ -15,9 +15,9 @@
     "com.openai": {
       "interface": {
         "displayName": "SECOP Intelligence",
-        "shortDescription": "Busca y analiza SECOP I y SECOP II",
+        "shortDescription": "Documentos y propuestas SECOP multisectoriales",
         "developerName": "dirako"
       }
     }
   }
-}\n
+}
