@@ -82,13 +82,18 @@ def _parse_date(value: Any) -> datetime | None:
     try:
         dt = datetime.fromisoformat(text)
         if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
+            dt = dt.replace(tzinfo=BOGOTA_TZ)
         return dt
     except ValueError:
         return None
 
 
 def _vigencia_secop2(row: dict[str, Any]) -> str:
+    estado = _fold(_clean_text(_pick(row, "estado_del_procedimiento", "estado")))
+    if "evaluacion" in estado:
+        return "EN_EVALUACION"
+    if any(x in estado for x in ("adjudic", "seleccionado", "cerrado", "cancel", "terminado", "suspend", "desierto")):
+        return "CERRADA"
     cierre = _parse_date(_pick(row, "fecha_de_recepcion_de", "fecha_de_recepcion_de_respuestas"))
     if cierre:
         now = datetime.now(timezone.utc)
@@ -99,9 +104,6 @@ def _vigencia_secop2(row: dict[str, Any]) -> str:
             return "PROXIMA_A_CERRAR"
         return "ABIERTA"
 
-    estado = _fold(_clean_text(_pick(row, "estado_del_procedimiento", "estado")))
-    if any(x in estado for x in ("adjudicado", "seleccionado", "cerrado", "cancelado", "terminado")):
-        return "CERRADA"
     return "REVISAR"
 
 
@@ -195,7 +197,22 @@ def buscar_secop2(
     if clauses:
         params["$where"] = " AND ".join(clauses)
 
-    return [normalize_secop2(row) for row in query_dataset("secop2_procesos", params)]
+    items = [normalize_secop2(row) for row in query_dataset("secop2_procesos", params)]
+    return [item for item in items if not solo_vigentes or item["vigencia"] in ("ABIERTA", "PROXIMA_A_CERRAR")]
+
+
+def normalize_contrato_secop2(row: dict[str, Any]) -> dict[str, Any]:
+    item = normalize_secop2(row)
+    item.update(
+        tipo_registro="CONTRATO", id_proceso=_clean_text(row.get("proceso_de_compra")),
+        id_contrato=_clean_text(row.get("id_contrato")),
+        referencia=_clean_text(row.get("referencia_del_contrato")),
+        entidad=_clean_text(row.get("nombre_entidad")),
+        objeto=_clean_text(row.get("objeto_del_contrato")) if _fold(_clean_text(row.get("objeto_del_contrato"))) not in ("", "no definido", "no definido.") else _clean_text(row.get("descripcion_del_proceso")),
+        vigencia="HISTORICO_CONTRACTUAL", fecha_cierre="",
+        fecha_firma=_clean_text(row.get("fecha_de_firma")),
+    )
+    return item
 
 
 def buscar_contratos_secop2(
@@ -220,7 +237,7 @@ def buscar_contratos_secop2(
         params["$where"] = " AND ".join(clauses)
 
     rows = query_dataset("secop2_contratos", params)
-    return [normalize_secop2(row) for row in rows]
+    return [normalize_contrato_secop2(row) for row in rows]
 
 
 def buscar_paa(query: str = "", limite: int = DEFAULT_LIMIT) -> list[dict[str, Any]]:
@@ -258,7 +275,7 @@ def _dedupe(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     for item in items:
         ident = _fold(_clean_text(item.get("id_proceso")) or _clean_text(item.get("referencia")))
         if ident:
-            key = ident
+            key = "|".join((str(item.get("fuente", "")), _fold(_clean_text(item.get("entidad"))), ident))
         else:
             key = "|".join(
                 [
@@ -283,8 +300,16 @@ def buscar_unificado(
     limite: int = DEFAULT_LIMIT,
 ) -> dict[str, Any]:
     # SECOP I se conserva como inteligencia histórica aun cuando solo_vigentes=True.
-    historicos = buscar_secop1(query, departamento, entidad, limite)
-    actuales = buscar_secop2(query, departamento, entidad, solo_vigentes, limite)
+    errores = []
+    historicos, actuales = [], []
+    try:
+        historicos = buscar_secop1(query, departamento, entidad, limite)
+    except Exception as exc:
+        errores.append({"fuente": "SECOP I", "error": str(exc)})
+    try:
+        actuales = buscar_secop2(query, departamento, entidad, solo_vigentes, limite)
+    except Exception as exc:
+        errores.append({"fuente": "SECOP II", "error": str(exc)})
 
     combinados = _dedupe(historicos + actuales)
     for item in combinados:
@@ -299,6 +324,8 @@ def buscar_unificado(
     )
 
     return {
+        "errores": errores,
+        "consulta_completa": not errores,
         "consulta": {
             "query": query,
             "departamento": departamento,
@@ -342,6 +369,12 @@ def main() -> None:
     p2.add_argument("--solo-vigentes", action="store_true")
     p2.add_argument("--limite", type=int, default=DEFAULT_LIMIT)
 
+    pc = sub.add_parser("contratos", help="Busca contratos SECOP II (no oportunidades)")
+    pc.add_argument("--query", default="")
+    pc.add_argument("--departamento", default="")
+    pc.add_argument("--entidad", default="")
+    pc.add_argument("--limite", type=int, default=DEFAULT_LIMIT)
+
     args = parser.parse_args()
     if args.command == "unificado":
         _print_json(
@@ -351,6 +384,8 @@ def main() -> None:
         )
     elif args.command == "secop1":
         _print_json(buscar_secop1(args.query, args.departamento, args.entidad, args.limite))
+    elif args.command == "contratos":
+        _print_json(buscar_contratos_secop2(args.query, args.departamento, args.entidad, args.limite))
     elif args.command == "secop2":
         _print_json(
             buscar_secop2(

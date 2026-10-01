@@ -225,3 +225,12 @@ y toda la hoja `claro.css` deja de aplicar.
 - Respeta `prefers-reduced-motion`: desactiva partículas y transiciones.
 - Botones con `:focus-visible`, estados `disabled` reales y etiquetas ARIA por pantalla.
 - Contraste alto sobre fondos oscuros en los ocho temas cromáticos.
+
+## SECOP Intelligence multisectorial
+
+El módulo [SECOP Intelligence](secop/README.md) consulta SECOP I y II para cualquier
+sector, conserva históricos y vigencia diferenciados, obtiene documentos públicos y
+genera borradores editables de propuestas técnicas, económicas y comerciales con
+requisitos citados, matriz y presupuesto. Las restricciones de descarga y datos
+faltantes quedan explícitos; no firma ni presenta ofertas. Incluye skill, MCP,
+scripts, configuración y pruebas de flujo.

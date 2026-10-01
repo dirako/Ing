@@ -3,5 +3,6 @@ command = "uv"
 args = ["run", "--project", "secop/mcp", "python", "secop/mcp/server.py"]
 cwd = "."
 enabled = true
-startup_timeout_sec = 30
+startup_timeout_sec = 120
+tool_timeout_sec = 1200
 default_tools_approval_mode = "approve"

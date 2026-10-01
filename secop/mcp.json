@@ -4,7 +4,14 @@
     "secop-intelligence": {
       "type": "stdio",
       "command": "uv",
-      "args": ["run", "--project", "./mcp", "python", "./mcp/server.py"],
+      "args": [
+        "run",
+        "--project",
+        "./mcp",
+        "--",
+        "python",
+        "./mcp/server.py"
+      ],
       "cwd": "."
     }
   }
